@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { StudentsComponent } from './students.component';
 import { StudentDetailsComponent } from './student-details/student-details.component';
 import { StudentCrudComponent } from './student-crud/student-crud.component';
+import { StudentDetailsEditComponent } from './student-details-edit/student-details-edit.component';
 
 export const studentsRoutes: Routes = [
   {
@@ -21,7 +22,7 @@ export const studentsRoutes: Routes = [
           },
           {
             path: ':id/edit',
-            component: StudentCrudComponent
+            component: StudentDetailsEditComponent
           },
           { path: '', redirectTo: '/students/list', pathMatch: 'full' }
         ]

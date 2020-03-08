@@ -1,0 +1,9 @@
+.student-details {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.student-details__title {
+
+}

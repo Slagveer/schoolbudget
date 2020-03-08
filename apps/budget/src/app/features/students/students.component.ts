@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { StudentModel } from '../../../../../api/src/app/students/models/student.model';
+import { StudentsService } from './students.service';
 
 @Component({
   selector: 'schoolbudget-students',
@@ -7,11 +8,12 @@ import { StudentModel } from '../../../../../api/src/app/students/models/student
   styleUrls: ['./students.component.css']
 })
 export class StudentsComponent implements OnInit {
-  public students: StudentModel[] = [
-    { id: '1', name: 'X', age: 30 },
-    { id: '2', name: 'Y', age: 25 }
-  ];
-  constructor() {}
+  public students: StudentModel[] = [];
+  constructor(private studentsService: StudentsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.studentsService.retrieve().subscribe((students: StudentModel[]) => {
+      this.students = students;
+    });
+  }
 }

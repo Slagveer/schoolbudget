@@ -5,10 +5,10 @@ import { StudentModel } from '../../../../../../api/src/app/students/models/stud
 
 @Component({
   selector: 'schoolbudget-student-details',
-  templateUrl: './student-details.component.html',
-  styleUrls: ['./student-details.component.css']
+  templateUrl: './student-details-edit.component.html',
+  styleUrls: ['./student-details-edit.component.css']
 })
-export class StudentDetailsComponent implements OnInit {
+export class StudentDetailsEditComponent implements OnInit {
   public id: string;
   public student$: Observable<StudentModel[]>;
   public cancelRoute: string[] | number[];
@@ -16,6 +16,6 @@ export class StudentDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params.id;
-    this.cancelRoute = ['students', 'list'];
+    this.cancelRoute = ['students', 'student-details', this.id];
   }
 }

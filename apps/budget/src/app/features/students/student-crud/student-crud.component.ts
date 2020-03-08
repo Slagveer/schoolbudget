@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StudentCrudService } from './student-crud.service';
+import { StudentModel } from '../../../../../../api/src/app/students/models/student.model';
 
 @Component({
   selector: 'schoolbudget-student-crud',
@@ -11,7 +13,16 @@ export class StudentCrudComponent implements OnInit {
   public studentEditForm: FormGroup;
   public id: string;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  @Input() cancelRoute: string[] | number[];
+  @Input() actionLabel: string;
+  @Input() type: string;
+  public student: StudentModel;
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private studentCrudService: StudentCrudService
+  ) {}
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params.id;
@@ -22,17 +33,31 @@ export class StudentCrudComponent implements OnInit {
       username: new FormControl(''),
       password: new FormControl('')
     });
-    this.studentEditForm.patchValue({
-      email: this.id
-    });
-    this.studentEditForm.disable();
+    if (this.type === 'view') {
+      this.studentEditForm.disable();
+    }
+    this.studentCrudService
+      .retrieve(this.id)
+      .subscribe((student: StudentModel) => {
+        this.student = student;
+        this.studentEditForm.patchValue({
+          email: this.student.email,
+          firstName: this.student.firstname,
+          lastName: this.student.lastname
+        });
+      });
   }
 
   submit(): void {
-    console.log(this.studentEditForm.invalid);
+    if (this.type === 'view') {
+      this.router.navigate(['students', 'student-details', this.id, 'edit']);
+    } else {
+      console.log('save');
+    }
   }
 
   cancel(): void {
-    this.router.navigate(['students', 'student-details', this.id]);
+    console.log(this.cancelRoute);
+    this.router.navigate(this.cancelRoute).then();
   }
 }

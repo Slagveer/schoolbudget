@@ -12,7 +12,7 @@ import { PageNotFoundComponent } from './features/page-not-found/page-not-found.
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { FeaturesModule } from './features/features.module';
-import { StudentsModule } from './features/students/students/students.module';
+import { StudentsModule } from './features/students/students.module';
 
 @NgModule({
   declarations: [
