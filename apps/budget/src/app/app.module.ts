@@ -31,7 +31,7 @@ import { StudentsModule } from './features/students/students.module';
       routes,
       { enableTracing: false } // <-- debugging purposes only
     ),
-    FeaturesModule,
+    // FeaturesModule,
     StudentsModule
   ],
   providers: [],

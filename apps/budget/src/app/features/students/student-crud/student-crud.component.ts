@@ -3,6 +3,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StudentCrudService } from './student-crud.service';
 import { StudentModel } from '../../../../../../api/src/app/students/models/student.model';
+import { BudgetService } from '../budget.service';
+import { BudgetModel } from '../../../../../../api/src/app/budgets/models/budget.model';
 
 @Component({
   selector: 'schoolbudget-student-crud',
@@ -17,11 +19,13 @@ export class StudentCrudComponent implements OnInit {
   @Input() actionLabel: string;
   @Input() type: string;
   public student: StudentModel;
+  public budget: BudgetModel;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private studentCrudService: StudentCrudService
+    private studentCrudService: StudentCrudService,
+    private budgetService: BudgetService
   ) {}
 
   ngOnInit(): void {
@@ -31,7 +35,7 @@ export class StudentCrudComponent implements OnInit {
       firstName: new FormControl(''),
       lastName: new FormControl(''),
       username: new FormControl(''),
-      password: new FormControl('')
+      budget: new FormControl('')
     });
     if (this.type === 'view') {
       this.studentEditForm.disable();
@@ -43,8 +47,21 @@ export class StudentCrudComponent implements OnInit {
         this.studentEditForm.patchValue({
           email: this.student.email,
           firstName: this.student.firstname,
-          lastName: this.student.lastname
+          lastName: this.student.lastname,
+          budget: '0,00'
         });
+        this.budgetService
+          .retrieve(this.student.budgetId)
+          .subscribe((budget: BudgetModel) => {
+            console.log(budget);
+            this.budget = budget;
+            this.studentEditForm.patchValue({
+              email: this.student.email,
+              firstName: this.student.firstname,
+              lastName: this.student.lastname,
+              budget: this.budget.amount
+            });
+          });
       });
   }
 
@@ -52,7 +69,9 @@ export class StudentCrudComponent implements OnInit {
     if (this.type === 'view') {
       this.router.navigate(['students', 'student-details', this.id, 'edit']);
     } else {
-      console.log('save');
+      this.studentCrudService.update().subscribe(() => {
+        this.router.navigate(['students', 'student-details', this.id, 'edit']);
+      });
     }
   }
 
