@@ -26,6 +26,7 @@ export class StudentsService {
       firstname: student.firstname,
       lastname: student.lastname,
       email: student.email,
+      budgetId: student.budgetId,
       age: student.age
     };
   }
@@ -38,6 +39,7 @@ export class StudentsService {
       firstname: student.firstname,
       lastname: student.lastname,
       email: student.email,
+      budgetId: student.budgetId,
       age: student.age
     }));
   }

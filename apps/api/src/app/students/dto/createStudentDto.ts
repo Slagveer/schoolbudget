@@ -3,5 +3,6 @@ export class CreateStudentDto {
   readonly firstname: string;
   readonly lastname: string;
   readonly email: string;
+  readonly budgetId: string;
   readonly age: number;
 }
