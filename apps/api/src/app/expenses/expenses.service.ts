@@ -7,37 +7,51 @@ import { ExpenseModel } from './models/expense.model';
 @Injectable()
 export class ExpensesService {
   constructor(
-    @InjectModel('Expense') private readonly budgetModel: Model<ExpenseModel>
+    @InjectModel('Expense') private readonly expenseModel: Model<ExpenseModel>
   ) {}
 
   async create(createExpenseDto: CreateExpenseDto): Promise<ExpenseModel> {
-    const createdExpense = new this.budgetModel(createExpenseDto);
+    const createdExpense = new this.expenseModel(createExpenseDto);
     return createdExpense.save();
   }
 
   async find(id: string): Promise<ExpenseModel> {
-    const budget = await this.budgetModel.findById(id).exec();
-    if (!budget) {
-      throw new NotFoundException('Could not find budget.');
+    const expense = await this.expenseModel.findById(id).exec();
+    if (!expense) {
+      throw new NotFoundException('Could not find expense.');
     }
     return {
-      id: budget.id,
-      studentId: budget.studentId,
-      amount: budget.amount
+      id: expense.id,
+      studentId: expense.studentId,
+      amount: expense.amount,
+      name: expense.name
     };
   }
 
+  async findByStudent(studentid: string): Promise<ExpenseModel> {
+    const expense = await this.expenseModel.find({"studentId": studentid}).exec();
+    if (!expense) {
+      throw new NotFoundException('Could not find expense.');
+    }
+    console.log('expense', expense, studentid)
+    return expense.map((exp: ExpenseModel)=>{
+      const { id, name, studentId, amount} = exp;
+      return ({id, name, studentId, amount});
+    });
+  }
+
   async findAll(): Promise<ExpenseModel[]> {
-    const budgets = await this.budgetModel.find().exec();
-    return budgets.map(budget => ({
-      id: budget.id,
-      studentId: budget.studentId,
-      amount: budget.amount
+    const expenses = await this.expenseModel.find().exec();
+    return expenses.map(expense => ({
+      id: expense.id,
+      studentId: expense.studentId,
+      amount: expense.amount,
+      name: expense.name
     }));
   }
 
-  async update(budget: ExpenseModel) {
-    await this.budgetModel.updateOne({ name: budget.amount }, budget);
+  async update(expense: ExpenseModel) {
+    await this.expenseModel.updateOne({ name: expense.amount }, expense);
   }
 
   async editExpense(
@@ -45,7 +59,7 @@ export class ExpensesService {
     createExpenseDto: CreateExpenseDto
   ): Promise<ExpenseModel> {
     console.log(id);
-    const editedExpense = await this.budgetModel.findByIdAndUpdate(
+    const editedExpense = await this.expenseModel.findByIdAndUpdate(
       id,
       createExpenseDto,
       { new: true }
@@ -54,6 +68,6 @@ export class ExpensesService {
   }
 
   async delete(id) {
-    await this.budgetModel.deleteOne({ _id: id });
+    await this.expenseModel.deleteOne({ _id: id });
   }
 }

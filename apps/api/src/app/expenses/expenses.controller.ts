@@ -35,14 +35,19 @@ export class ExpensesController {
     return this.expensesService.findAll();
   }
 
-  @Get('budget/:id')
+  @Get('expense/:id')
   async find(@Param('id') id: string): Promise<ExpenseModel> {
     return this.expensesService.find(id);
   }
 
+  @Get('expense-by-student/:id')
+  async findByStudent(@Param('id') id: string): Promise<ExpenseModel> {
+    return this.expensesService.findByStudent(id);
+  }
+
   @Post('update')
-  async Update(@Body() budget: ExpenseModel) {
-    await this.expensesService.update(budget);
+  async Update(@Body() expense: ExpenseModel) {
+    await this.expensesService.update(expense);
   }
 
   @Put('/edit')
