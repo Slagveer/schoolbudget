@@ -1,7 +1,7 @@
 import { BudgetSchema } from './budget.schema';
 import { MongooseModule } from '@nestjs/mongoose';
-import { StudentsController } from '../students.controller';
 import { Module } from '@nestjs/common';
+import { BudgetsController } from '../budgets.controller';
 
 @Module({
   imports: [

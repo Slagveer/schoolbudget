@@ -5,6 +5,9 @@ import { StudentCrudService } from './student-crud.service';
 import { StudentModel } from '../../../../../../api/src/app/students/models/student.model';
 import { BudgetService } from '../budget.service';
 import { BudgetModel } from '../../../../../../api/src/app/budgets/models/budget.model';
+import { ExpensesService } from '../expenses.service';
+import { merge } from 'rxjs';
+import { ExpenseModel } from '../../../../../../api/src/app/expenses/models/expense.model';
 
 @Component({
   selector: 'schoolbudget-student-crud',
@@ -20,12 +23,14 @@ export class StudentCrudComponent implements OnInit {
   @Input() type: string;
   public student: StudentModel;
   public budget: BudgetModel;
+  public expenses: ExpenseModel[];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private studentCrudService: StudentCrudService,
-    private budgetService: BudgetService
+    private budgetService: BudgetService,
+    private expensesService: ExpensesService
   ) {}
 
   ngOnInit(): void {
@@ -40,6 +45,15 @@ export class StudentCrudComponent implements OnInit {
     if (this.type === 'view') {
       this.studentEditForm.disable();
     }
+    // merge(
+    //   this.studentCrudService
+    //     .retrieve(this.id),
+    //   this.budgetService
+    //     .retrieve(this.student.budgetId),
+    //   this.expensesService.retrieve(this.id)
+    // ).subscribe((result: any) => {
+    //   console.log(result)
+    // });
     this.studentCrudService
       .retrieve(this.id)
       .subscribe((student: StudentModel) => {
@@ -53,16 +67,32 @@ export class StudentCrudComponent implements OnInit {
         this.budgetService
           .retrieve(this.student.budgetId)
           .subscribe((budget: BudgetModel) => {
-            console.log(budget);
             this.budget = budget;
-            this.studentEditForm.patchValue({
-              email: this.student.email,
-              firstName: this.student.firstname,
-              lastName: this.student.lastname,
-              budget: this.budget.amount
-            });
+            this.expensesService.retrieve(this.id).subscribe((expenses: ExpenseModel[]) => {
+              this.expenses = expenses;
+              this.studentEditForm.patchValue({
+                email: this.student.email,
+                firstName: this.student.firstname,
+                lastName: this.student.lastname,
+                budget: this.budget.amount - this.calculateBudget(this.budget.amount, expenses)
+              });
+            })
           });
       });
+  }
+
+  calculateBudget(budget: number, expenses: ExpenseModel[]): number {
+    const totalExpenses:number = expenses.map((expense:ExpenseModel)=>expense.amount).reduce((total: number, amount: number) => {
+      return (amount + total) });
+    return totalExpenses;
+  }
+
+  update(expenseId:string): void {
+    this.expensesService.update(expenseId).subscribe();
+  }
+
+  delete(expenseId:string): void {
+    this.expensesService.delete(expenseId).subscribe();
   }
 
   submit(): void {

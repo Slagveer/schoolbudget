@@ -20,6 +20,23 @@
         <input type="text" class="form-control" id="budget" formControlName="budget">
       </div>
     </div>
+    <div class="form-row" *ngFor="let expense of expenses">
+      <div class="form-group col-md-6">
+        <label [for]="expense.id">Expense - {{ expense.name }}</label>
+        <input disabled type="text" class="form-control" [id]="expense.id" [value]="expense.amount">
+      </div>
+      <div class="form-group col-md-6">
+        <label >&nbsp;</label>
+        <div class="expense-buttons">
+        <button class="btn btn-warning" (click)="update(expense.id)">Update</button>
+        <button class="btn btn-danger" (click)="delete(expense.id)">Delete</button>
+        </div>
+      </div>
+    </div>
+    <div class="buttons add-expense">
+      <button class="btn btn-success" (click)="cancel()">Add Expense</button>
+    </div>
+    <hr/>
     <div class="buttons">
       <button class="btn btn-secondary" (click)="cancel()">Cancel</button>
       <button class="btn btn-primary">{{ actionLabel }}</button>

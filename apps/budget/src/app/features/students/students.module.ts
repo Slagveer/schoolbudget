@@ -9,6 +9,7 @@ import { FeaturesModule } from '../features.module';
 import { StudentCrudComponent } from './student-crud/student-crud.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StudentDetailsEditComponent } from './student-details-edit/student-details-edit.component';
+import { StudentExpenseComponent } from './student-expense/student-expense.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { StudentDetailsEditComponent } from './student-details-edit/student-deta
     StudentComponent,
     StudentsComponent,
     StudentCrudComponent,
-    StudentDetailsEditComponent
+    StudentDetailsEditComponent,
+    StudentExpenseComponent
   ],
   exports: [StudentDetailsComponent, StudentComponent],
   imports: [
