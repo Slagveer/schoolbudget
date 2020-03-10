@@ -2,12 +2,12 @@
   <form [formGroup]="studentEditForm" (ngSubmit)="submit()">
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="firstName">Firstname</label>
-        <input type="text" class="form-control" id="firstName" formControlName="firstName">
+        <label for="firstname">Firstname</label>
+        <input type="text" class="form-control" id="firstname" formControlName="firstname">
       </div>
       <div class="form-group col-md-6">
-        <label for="lastName">Lastname</label>
-        <input type="text" class="form-control" id="lastName" formControlName="lastName">
+        <label for="lastname">Lastname</label>
+        <input type="text" class="form-control" id="lastname" formControlName="lastname">
       </div>
     </div>
     <div class="form-row">
@@ -16,8 +16,12 @@
         <input type="email" class="form-control" id="inputEmail4" formControlName="email">
       </div>
       <div class="form-group col-md-6">
+        <label for="days">Days</label>
+        <input type="number" class="form-control" id="days" formControlName="days">
+      </div>
+      <div class="form-group col-md-6">
         <label for="budget">Budget</label>
-        <input type="number" class="form-control" id="budget" formControlName="budget">
+        <input type="number" disabled class="form-control" id="budget" formControlName="budget">
         <small id="passwordHelpBlock" class="form-text text-muted">
           Initial budget: {{ budget?.amount | number:'0.2-2' }}
         </small>

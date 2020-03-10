@@ -46,8 +46,8 @@ export class StudentCrudComponent implements OnInit {
     this.id = this.route.snapshot.params.id;
     this.studentEditForm = new FormGroup({
       email: new FormControl(''),
-      firstName: new FormControl(''),
-      lastName: new FormControl(''),
+      firstname: new FormControl(''),
+      lastname: new FormControl(''),
       username: new FormControl(''),
       days: new FormControl(''),
       budget: new FormControl('')
@@ -55,15 +55,6 @@ export class StudentCrudComponent implements OnInit {
     if (this.type === 'view') {
       this.studentEditForm.disable();
     }
-    // merge(
-    //   this.studentCrudService
-    //     .retrieve(this.id),
-    //   this.budgetService
-    //     .retrieve(this.student.budgetId),
-    //   this.expensesService.retrieve(this.id)
-    // ).subscribe((result: any) => {
-    //   console.log(result)
-    // });
     this.studentCrudService
       .retrieve(this.id)
       .subscribe((student: StudentModel) => {
@@ -74,9 +65,9 @@ export class StudentCrudComponent implements OnInit {
         );
         this.studentEditForm.patchValue({
           email: this.student.email,
-          firstName: this.student.firstname,
-          lastName: this.student.lastname,
-          day: this.student.days,
+          firstname: this.student.firstname,
+          lastname: this.student.lastname,
+          days: this.student.days,
           budget: '0,00'
         });
         this.budgetService
@@ -103,12 +94,14 @@ export class StudentCrudComponent implements OnInit {
                     ]);
                     this.studentEditForm.patchValue({
                       email: this.student.email,
-                      firstName: this.student.firstname,
-                      lastName: this.student.lastname,
+                      firstname: this.student.firstname,
+                      lastname: this.student.lastname,
                       budget:
-                        this.budget.amount -
-                        this.calculateBudget(this.budget.amount, expenses) +
-                        this.calculateBudget(this.budget.amount, earnings)
+                        this.type === 'view'
+                          ? this.budget.amount -
+                            this.calculateBudget(this.budget.amount, expenses) +
+                            this.calculateBudget(this.budget.amount, earnings)
+                          : this.budget.amount
                     });
                   });
               });
@@ -159,8 +152,9 @@ export class StudentCrudComponent implements OnInit {
               this.budget = budget;
               this.studentEditForm.patchValue({
                 email: this.student.email,
-                firstName: this.student.firstname,
-                lastName: this.student.lastname,
+                firstname: this.student.firstname,
+                lastname: this.student.lastname,
+                days: this.student.days,
                 budget:
                   this.budget.amount -
                   this.calculateBudget(this.budget.amount, this.expenses) +
@@ -186,8 +180,9 @@ export class StudentCrudComponent implements OnInit {
               this.budget = budget;
               this.studentEditForm.patchValue({
                 email: this.student.email,
-                firstName: this.student.firstname,
-                lastName: this.student.lastname,
+                firstname: this.student.firstname,
+                lastname: this.student.lastname,
+                days: this.student.days,
                 budget:
                   this.budget.amount -
                   this.calculateBudget(this.budget.amount, this.expenses) +
@@ -220,9 +215,7 @@ export class StudentCrudComponent implements OnInit {
     if (this.type === 'view') {
       this.router.navigate(['students', 'student-details', this.id, 'edit']);
     } else {
-      this.studentCrudService.update(this.student).subscribe(() => {
-        this.router.navigate(['students', 'student-details', this.id, 'edit']);
-      });
+      this.router.navigate(['students', 'student-details', this.id]);
     }
   }
 
@@ -267,8 +260,11 @@ export class StudentCrudComponent implements OnInit {
   }
 
   updateStudent(): void {
-    this.studentCrudService
-      .update({ ...this.student, ...this.studentEditForm.value })
-      .subscribe(() => {});
+    console.log(1);
+    const student: StudentModel = {
+      ...this.student,
+      ...this.studentEditForm.value
+    };
+    this.studentCrudService.update(student).subscribe(() => {});
   }
 }

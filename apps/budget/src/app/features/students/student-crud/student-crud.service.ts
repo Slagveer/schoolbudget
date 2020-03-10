@@ -17,8 +17,9 @@ export class StudentCrudService {
   }
 
   update(student: StudentModel): Observable<StudentModel> {
+    console.log(student);
     return this.http
-      .put(`http://localhost:51786/students/edit?${student.id}`, student)
+      .put(`http://localhost:51786/api/students/edit?id=${student.id}`, student)
       .pipe(map((newStudent: StudentModel) => newStudent));
   }
 
