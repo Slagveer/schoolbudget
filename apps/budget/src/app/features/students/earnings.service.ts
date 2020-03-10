@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { BudgetModel } from '../../../../../api/src/app/budgets/models/budget.model';
 import { map } from 'rxjs/operators';
 import { EarningModel } from '../../../../../api/src/app/earnings/models/earning.model';
+import { ExpenseModel } from '../../../../../api/src/app/expenses/models/expense.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,11 +39,9 @@ export class EarningsService {
       .pipe(map((updatedEarning: EarningModel) => updatedEarning));
   }
 
-  delete(studentId: string): Observable<EarningModel[]> {
+  delete(earningId: string): Observable<EarningModel> {
     return this.http
-      .get(
-        `http://localhost:51786/api/earnings/earning-by-student/${studentId}`
-      )
-      .pipe(map((earnings: EarningModel[]) => earnings));
+      .delete(`http://localhost:51786/api/earnings/delete/${earningId}`)
+      .pipe(map((earning: ExpenseModel) => earning));
   }
 }

@@ -15,13 +15,23 @@
     margin-bottom: 20px;
   }
 
-  .expense-buttons {
+  .expense-buttons,
+  .earning-buttons {
     .btn {
       margin-right: 8px;
     }
   }
 
+  .average-amount {
+    font-weight: bold;
+    margin-top: 8px;
+  }
+
   .add-expense {
+    margin-bottom: 8px;
+  }
+
+  .add-earning {
     margin-bottom: 8px;
   }
 }

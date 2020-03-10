@@ -1,3 +1,11 @@
 <div class="students">
-  <schoolbudget-student [student]="student" *ngFor="let student of students"></schoolbudget-student>
+  <div class="bar">
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="#">Students</a>
+      <span>Total: {{ students.length }} Total Budget: {{ totalBudget | number :  '0.2-2' }}</span>
+    </nav>
+  </div>
+  <div class="content">
+    <schoolbudget-student [student]="student" *ngFor="let student of students"></schoolbudget-student>
+  </div>
 </div>

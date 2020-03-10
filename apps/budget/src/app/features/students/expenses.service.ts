@@ -32,17 +32,14 @@ export class ExpensesService {
   }
 
   add(expense: ExpenseModel): Observable<ExpenseModel> {
-    console.log(expense);
     return this.http
       .post(`http://localhost:51786/api/expenses/add`, expense)
       .pipe(map((updatedExpense: ExpenseModel) => updatedExpense));
   }
 
-  delete(studentId: string): Observable<ExpenseModel[]> {
+  delete(expenseId: string): Observable<ExpenseModel> {
     return this.http
-      .get(
-        `http://localhost:51786/api/expenses/expense-by-student/${studentId}`
-      )
-      .pipe(map((expenses: ExpenseModel[]) => expenses));
+      .delete(`http://localhost:51786/api/expenses/delete/${expenseId}`)
+      .pipe(map((expense: ExpenseModel) => expense));
   }
 }

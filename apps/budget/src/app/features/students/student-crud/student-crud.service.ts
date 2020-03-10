@@ -16,10 +16,10 @@ export class StudentCrudService {
       .pipe(map((student: StudentModel) => student));
   }
 
-  update(): Observable<StudentModel> {
+  update(student: StudentModel): Observable<StudentModel> {
     return this.http
-      .post('http://localhost:51786/student', {})
-      .pipe(map((student: StudentModel) => student));
+      .put(`http://localhost:51786/students/edit?${student.id}`, student)
+      .pipe(map((newStudent: StudentModel) => newStudent));
   }
 
   add(): Observable<StudentModel> {

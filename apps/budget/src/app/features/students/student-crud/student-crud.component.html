@@ -17,13 +17,27 @@
       </div>
       <div class="form-group col-md-6">
         <label for="budget">Budget</label>
-        <input type="text" class="form-control" id="budget" formControlName="budget">
+        <input type="number" class="form-control" id="budget" formControlName="budget">
+        <small id="passwordHelpBlock" class="form-text text-muted">
+          Initial budget: {{ budget?.amount | number:'0.2-2' }}
+        </small>
       </div>
     </div>
     <ng-container *ngIf="type === 'view'">
       <div class="form-row type-filter">
+        <label for="average-day">Avearge per Day:</label>
+        <select id="average-day" class="form-control col-md-12" (change)="setDay($event)">
+          <option [value]="day" *ngFor="let day of days">{{ day }}</option>
+        </select>
+        <div class="col-md-12 average-amount" *ngIf="averageExpenses > 0">
+          <span>Averige expenses per day: {{ averageExpenses | number:'0.2-2' }}</span>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="type === 'view'">
+      <div class="form-row type-filter">
         <label [for]="type">Filter By Expenses:</label>
-        <select [id]="type" class="form-control col-md-12" (change)="setFilter($event)">
+        <select [id]="type" class="form-control col-md-12" (change)="setFilterExpenses($event)">
           <option [value]="''">No filter</option>
           <option [value]="expense" *ngFor="let expense of uniqueExpenseTypes">{{ expense }}</option>
         </select>
@@ -37,26 +51,50 @@
           <label>&nbsp;</label>
           <div class="expense-buttons">
             <button type="button" class="btn btn-warning" (click)="update(expense.id)">Update</button>
-            <button type="button" class="btn btn-danger" (click)="delete(expense.id)">Delete</button>
+            <button type="button" class="btn btn-danger" (click)="deleteExpense(expense.id)">Delete</button>
           </div>
         </div>
       </div>
     </ng-container>
-    <div class="buttons add-expense">
-      <button class="btn btn-danger" (click)="addExpense()">Add Expense</button>
-      <button class="btn btn-success" (click)="addEarning()">Add Earnings</button>
-    </div>
+    <ng-container *ngIf="type === 'view'">
+      <div class="form-row type-filter">
+        <label [for]="type">Filter By Earnings:</label>
+        <select [id]="type" class="form-control col-md-12" (change)="setFilterEarnings($event)">
+          <option [value]="''">No filter</option>
+          <option [value]="earning" *ngFor="let earning of uniqueEarningTypes">{{ earning }}</option>
+        </select>
+      </div>
+      <div class="form-row" *ngFor="let earning of filteredEarnings || earnings">
+        <div class="form-group col-md-6">
+          <label [for]="earning.id">Expense - {{ earning.name }}</label>
+          <input disabled type="text" class="form-control" [id]="earning.id" [value]="earning.amount">
+        </div>
+        <div class="form-group col-md-6">
+          <label>&nbsp;</label>
+          <div class="earning-buttons">
+            <button type="button" class="btn btn-warning" (click)="update(earning.id)">Update</button>
+            <button type="button" class="btn btn-danger" (click)="deleteEarning(earning.id)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="type === 'view'">
+      <div class="buttons add-expense">
+        <button class="btn btn-danger" (click)="addExpense()">Add Expense</button>
+        <button class="btn btn-success" (click)="addEarning()">Add Earnings</button>
+      </div>
+    </ng-container>
     <hr/>
     <ng-container *ngIf="type === 'view'">
     <div class="buttons">
       <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
-      <button type="button" class="btn btn-primary">{{ actionLabel }}</button>
+      <button type="button" class="btn btn-primary" (click)="submit()">{{ actionLabel }}</button>
     </div>
     </ng-container>
     <ng-container *ngIf="type !== 'view'">
     <div class="buttons">
       <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
-      <button type="submit" class="btn btn-primary">{{ actionLabel }}</button>
+      <button type="submit" class="btn btn-primary" (click)="updateStudent()">{{ actionLabel }}</button>
     </div>
     </ng-container>
   </form>

@@ -10,7 +10,13 @@ import { BudgetModel } from '../../../../../api/src/app/budgets/models/budget.mo
 export class BudgetService {
   constructor(private http: HttpClient) {}
 
-  retrieve(budgetId: string): Observable<BudgetModel> {
+  retrieve(): Observable<BudgetModel[]> {
+    return this.http
+      .get(`http://localhost:51786/api/budgets`)
+      .pipe(map((budgets: BudgetModel[]) => budgets));
+  }
+
+  retrieveByBudgetId(budgetId: string): Observable<BudgetModel> {
     return this.http
       .get(`http://localhost:51786/api/budgets/budget/${budgetId}`)
       .pipe(map((budget: BudgetModel) => budget));
