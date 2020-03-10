@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit {
   }
 
   submit(): void {
-    this.router.navigate(['/students'], {
-      queryParams: { ...this.loginForm.value }
-    });
+    const { email, password } = this.loginForm.value;
+    if (email === 'admin' && password === '12345')
+      this.router.navigateByUrl('/students');
   }
 }

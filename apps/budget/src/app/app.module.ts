@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { FeaturesModule } from './features/features.module';
 import { StudentsModule } from './features/students/students.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { StudentsModule } from './features/students/students.module';
       { enableTracing: false } // <-- debugging purposes only
     ),
     // FeaturesModule,
-    StudentsModule
+    StudentsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
