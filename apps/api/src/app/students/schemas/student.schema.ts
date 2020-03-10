@@ -6,5 +6,6 @@ export const StudentSchema = new mongoose.Schema({
   lastname: String,
   email: String,
   budgetId: String,
-  age: Number
+  age: Number,
+  days: Number
 });

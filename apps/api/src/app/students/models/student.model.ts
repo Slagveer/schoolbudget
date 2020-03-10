@@ -8,4 +8,5 @@ export interface StudentModel extends Document {
   readonly email: string;
   readonly budgetId: string;
   readonly age: number;
+  readonly days: number;
 }
