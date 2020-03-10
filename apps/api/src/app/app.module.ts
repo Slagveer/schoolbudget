@@ -7,6 +7,7 @@ import { StudentsModule } from './students/students.module';
 import { BudgetsModule } from './budgets/budgets.module';
 import { ReceiptsModule } from './receipts/receipts.module';
 import { ExpensesModule } from './expenses/expenses.module';
+import { EarningsModule } from './earnings/earnings.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { ExpensesModule } from './expenses/expenses.module';
     StudentsModule,
     BudgetsModule,
     ReceiptsModule,
-    ExpensesModule
+    ExpensesModule,
+    EarningsModule
   ],
   controllers: [AppController],
   providers: [AppService]

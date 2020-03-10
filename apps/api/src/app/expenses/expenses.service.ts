@@ -29,14 +29,16 @@ export class ExpensesService {
   }
 
   async findByStudent(studentid: string): Promise<ExpenseModel> {
-    const expense = await this.expenseModel.find({"studentId": studentid}).exec();
+    const expense = await this.expenseModel
+      .find({ studentId: studentid })
+      .exec();
     if (!expense) {
       throw new NotFoundException('Could not find expense.');
     }
-    console.log('expense', expense, studentid)
-    return expense.map((exp: ExpenseModel)=>{
-      const { id, name, studentId, amount} = exp;
-      return ({id, name, studentId, amount});
+    console.log('expense', expense, studentid);
+    return expense.map((exp: ExpenseModel) => {
+      const { id, name, studentId, amount } = exp;
+      return { id, name, studentId, amount };
     });
   }
 
@@ -58,7 +60,6 @@ export class ExpensesService {
     id: string,
     createExpenseDto: CreateExpenseDto
   ): Promise<ExpenseModel> {
-    console.log(id);
     const editedExpense = await this.expenseModel.findByIdAndUpdate(
       id,
       createExpenseDto,

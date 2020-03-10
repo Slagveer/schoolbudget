@@ -53,8 +53,8 @@ export class ExpensesController {
   @Put('/edit')
   async editExpense(
     @Res() res,
-    @Query('id', new ValidateObjectId()) id: string,
-    @Body() createExpenseDto: CreateExpenseDto
+    @Body() createExpenseDto: CreateExpenseDto,
+    @Query('id', new ValidateObjectId()) id: string
   ) {
     const editedPost = await this.expensesService.editExpense(
       id,
@@ -66,6 +66,15 @@ export class ExpensesController {
     return res.status(HttpStatus.OK).json({
       message: 'Post has been successfully updated',
       post: editedPost
+    });
+  }
+
+  @Post('/add')
+  async addPost(@Res() res, @Body() createExpenseDTO: CreateExpenseDto) {
+    const newExpense = await this.expensesService.create(createExpenseDTO);
+    return res.status(HttpStatus.OK).json({
+      message: 'Expense has been submitted successfully!',
+      post: newExpense
     });
   }
 
