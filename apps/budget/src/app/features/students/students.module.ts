@@ -10,6 +10,7 @@ import { StudentCrudComponent } from './student-crud/student-crud.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StudentDetailsEditComponent } from './student-details-edit/student-details-edit.component';
 import { StudentExpenseComponent } from './student-expense/student-expense.component';
+import { StudentEarningComponent } from './student-earning/student-earning.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { StudentExpenseComponent } from './student-expense/student-expense.compo
     StudentsComponent,
     StudentCrudComponent,
     StudentDetailsEditComponent,
-    StudentExpenseComponent
+    StudentExpenseComponent,
+    StudentEarningComponent
   ],
   exports: [StudentDetailsComponent, StudentComponent],
   imports: [

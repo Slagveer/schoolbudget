@@ -9,24 +9,40 @@ import { ExpenseModel } from '../../../../../api/src/app/expenses/models/expense
   providedIn: 'root'
 })
 export class ExpensesService {
-
   constructor(private http: HttpClient) {}
 
-  retrieve(studentId: string): Observable<ExpenseModel[]> {
+  retrieve(expenseId: string): Observable<ExpenseModel> {
     return this.http
-      .get(`http://localhost:51786/api/expenses/expense-by-student/${studentId}`)
+      .get(`http://localhost:51786/api/expenses/expense/${expenseId}`)
+      .pipe(map((expense: ExpenseModel) => expense));
+  }
+
+  retrieveByStudent(studentId: string): Observable<ExpenseModel[]> {
+    return this.http
+      .get(
+        `http://localhost:51786/api/expenses/expense-by-student/${studentId}`
+      )
       .pipe(map((expenses: ExpenseModel[]) => expenses));
   }
 
-  update(studentId: string): Observable<ExpenseModel[]> {
+  update(expense: ExpenseModel): Observable<ExpenseModel> {
     return this.http
-      .get(`http://localhost:51786/api/expenses/expense-by-student/${studentId}`)
-      .pipe(map((expenses: ExpenseModel[]) => expenses));
+      .put(`http://localhost:51786/api/expenses/edit?id=${expense.id}`, expense)
+      .pipe(map((updatedExpense: ExpenseModel) => updatedExpense));
+  }
+
+  add(expense: ExpenseModel): Observable<ExpenseModel> {
+    console.log(expense);
+    return this.http
+      .post(`http://localhost:51786/api/expenses/add`, expense)
+      .pipe(map((updatedExpense: ExpenseModel) => updatedExpense));
   }
 
   delete(studentId: string): Observable<ExpenseModel[]> {
     return this.http
-      .get(`http://localhost:51786/api/expenses/expense-by-student/${studentId}`)
+      .get(
+        `http://localhost:51786/api/expenses/expense-by-student/${studentId}`
+      )
       .pipe(map((expenses: ExpenseModel[]) => expenses));
   }
 }

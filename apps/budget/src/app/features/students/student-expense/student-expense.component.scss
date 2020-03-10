@@ -1,0 +1,13 @@
+.student-expense {
+  display: flex;
+  justify-content: center;
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+
+    .btn {
+      margin-right: 8px;
+    }
+  }
+}
